@@ -1,6 +1,8 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 
+type FileStatus = 'added' | 'modified' | 'removed' | 'renamed'
+
 async function run(): Promise<void> {
   try {
     // Create GitHub client with the API token.
@@ -76,7 +78,7 @@ async function run(): Promise<void> {
     }
 
     // Get the changed files from the response payload.
-    const files = response.data.files
+    const files = response.data.files?.values()
     const all = [] as string[]
     for (const file of files) {
       const filename = file.filename
