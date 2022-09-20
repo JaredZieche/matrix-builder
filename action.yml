@@ -12,11 +12,17 @@ inputs:
   config_path:
     description: path in repo to check for matrix configuration files, string in the form of repo path
     required: true
-    default: '.*'
+    default: '/test/.*/.*'
   file_type:
     description: filename to identify a directory as a build context
     required: true
-    default: main.ts
+    default: Dockerfile
+  map_file:
+    description: path to json file containing map of github runners to target envs
+    required: true
+    default: test/map.json
 outputs:
-  all:
+  contextdirs:
     description: Array of all changed files
+  matrix:
+    description: json object for use in job matrices

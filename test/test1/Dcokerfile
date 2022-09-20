@@ -1,0 +1,1 @@
+FROM registry/image:tag

@@ -10,7 +10,8 @@ async function run(): Promise<void> {
     const token = core.getInput("token", { required: true });
     const octokit = getOctokit(token);
     const configpath = core.getInput("config_path", { required: true })
-    const fileType = core.getInput("file_type", { required: true })
+    const filetype = core.getInput("file_type", { required: true })
+    const mapfile = core.getInput("map_file", { required: true })
 
     // Debug log the payload.
     core.debug(`Payload keys: ${Object.keys(context.payload)}`);
@@ -97,7 +98,7 @@ async function run(): Promise<void> {
       }
     }
     core.setOutput("contextdirs", contextdirs);
-    const newdirs = [];
+    const newdirs = [] as string[];
     let globPattern = [...new Set(contextdirs)]
     const globber = await glob.create(globPattern.join('\n'))
     const globs = await globber.glob()
@@ -106,47 +107,31 @@ async function run(): Promise<void> {
       newdirs.push(newdir);
     }
     core.info(`Context directories: ${newdirs}`);
-    // // console.log(newdirs)
-    // const buildMatrix = {};
-    // const promotionMatrix = {};
-    // buildMatrix.include = []
-    // promotionMatrix.include = []
-    // for (const dir of newdirs) {
-    //   console.log(dir)
-    //   const configFile = `${dir}/config.json`
-    //   // console.log(configFile)
-    //   const config = fs.readFileSync(configFile, 'utf8')
-    //   // console.log(config)
-    //   let obj = JSON.parse(config)
-    //   const mapFile = fs.readFileSync('/Users/jaredzieche/github-actions-testing/src/docker/config.json', 'utf8')
-    //   const registryMap = JSON.parse(mapFile)
-    //   for (const target of obj.targets) {
-    //     var ghEnv = Object.entries(registryMap)
-    //     // console.log(ghEnv)
-    //     for (const [key,value] of Object.entries(registryMap)) {
-    //       for (var t of value) {
-    //         if (t.includes(target)) {
-    //           let gh = key
-    //           // console.log(key)
-    //           buildMatrix.include.push({
-    //             name: dir,
-    //             image: `${obj.image["name"]}:${obj.image["tag"]}`
-    //           })
-    //           promotionMatrix.include.push({
-    //             name: dir,
-    //             env: gh,
-    //             targets: target,
-    //             image: `${obj.image["name"]}:${obj.image["tag"]}`
-    //           })
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-    // console.log(buildMatrix)
-    // console.log(promotionMatrix)
-    // const buildMatrixYaml = yaml.dump(buildMatrix)
-    // console.log(buildMatrixYaml)
+    const matrix = {};
+    matrix.include = []
+    for (const dir of newdirs) {
+      console.log(dir)
+      const configFile = `${dir}/config.json`
+      const config = fs.readFileSync(configFile, 'utf8')
+      let obj = JSON.parse(config)
+      const map = fs.readFileSync(mapfile, 'utf8')
+      const configmap = JSON.parse(map)
+      for (const target of obj.targets) {
+        for (const [key,value] of Object.entries(configmap)) {
+          for (var t of value) {
+            if (t.includes(target)) {
+              let gh = key
+              matrix.include.push({
+                name: dir,
+                image: `${obj.image["name"]}:${obj.image["tag"]}`
+              })
+            }
+          }
+        }
+      }
+    }
+    core.info(`Matrix: ${matrix}`)
+    core.setOutput("matrix", matrix)
 
 
   } catch (error) {

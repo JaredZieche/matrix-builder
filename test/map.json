@@ -1,0 +1,15 @@
+{
+    "vaec-bip-dev": [
+        "nexus.dev.bip.va.gov",
+        "nexus.sbx.bip.va.gov",
+        "261727212250.dkr.ecr.us-gov-west-1.amazonaws.com"
+    ],
+    "vaec-bip-stage": [
+        "nexus.stage.bip.va.gov",
+        "621261082401.dkr.ecr.us-gov-west-1.amazonaws.com"
+    ],
+    "vaec-bip-prod": [
+        "nexus.prod.bip.va.gov",
+        "532813628429.dkr.ecr.us-gov-west-1.amazonaws.com"
+    ]
+}
