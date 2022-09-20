@@ -1,0 +1,10 @@
+name: Create docker job matrix
+description: Get all changed files from event and create a json object for use as a job matrix
+runs:
+  using: node18
+  main: src/main.ts
+inputs:
+  token:
+    description: github token for api requests
+    required: true
+    default: ${{github.token}}
