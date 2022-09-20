@@ -1,9 +1,8 @@
 {
     "name": "matrix-builder",
     "version": "1.0.0",
-    "description": "",
+    "description": "matrix-builder",
     "main": "lib/main.js",
-    "type": "module",
     "engines": {
         "node": "^16.0.0"
     },
@@ -27,22 +26,31 @@
     },
     "homepage": "https://github.com/JaredZieche/matrix-builder#readme",
     "dependencies": {
-        "@actions/core": "^1.9.1",
-        "@actions/github": "^5.0.3"
+        "@actions/core": "^1.2.6",
+        "@actions/exec": "^1.0.1",
+        "@actions/github": "^5.0.3",
+        "@actions/io": "^1.0.1",
+        "@actions/tool-cache": "^1.1.2",
+        "uuid": "^3.3.3"
     },
     "devDependencies": {
-        "@octokit/rest": "^19.0.4",
-        "@types/jest": "^29.0.3",
-        "@types/node": "^18.7.18",
-        "@typescript-eslint/parser": "^5.38.0",
-        "eslint": "^8.23.1",
-        "eslint-plugin-github": "^4.3.7",
-        "eslint-plugin-jest": "^27.0.4",
-        "eslint-plugin-prettier": "^4.2.1",
-        "jest-circus": "^29.0.3",
-        "prettier": "^2.7.1",
-        "rimraf": "^3.0.2",
-        "ts-jest": "^29.0.1",
-        "typescript": "^4.8.3"
+        "@types/jest": "^27.0.2",
+        "@types/node": "^12.7.12",
+        "@types/uuid": "^3.4.6",
+        "@typescript-eslint/parser": "^5.1.0",
+        "@zeit/ncc": "^0.20.5",
+        "eslint": "^7.32.0",
+        "eslint-plugin-github": "^4.3.2",
+        "eslint-plugin-jest": "^25.2.2",
+        "jest": "^27.3.0",
+        "jest-circus": "^27.3.0",
+        "js-yaml": "^3.13.1",
+        "prettier": "^1.19.1",
+        "ts-jest": "^27.0.7",
+        "typescript": "^4.4.4"
+    },
+    "types": "./lib/main.d.ts",
+    "directories": {
+        "lib": "lib"
     }
 }

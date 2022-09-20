@@ -55,7 +55,7 @@ async function run(): Promise<void> {
       base,
       head,
       owner: context.repo.owner,
-      repo: context.repo.repo,
+      repo: context.repo.repo
     });
 
     // Ensure that the request was successful.
