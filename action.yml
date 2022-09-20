@@ -9,6 +9,14 @@ inputs:
     description: github token for api requests
     required: true
     default: ${{github.token}}
+  config_path:
+    description: path in repo to check for matrix configuration files, string in the form of repo path
+    required: true
+    default: '.*'
+  file_type:
+    description: filename to identify a directory as a build context
+    required: true
+    default: main.ts
 outputs:
   all:
     description: Array of all changed files
