@@ -1,13 +1,13 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 
-// Create GitHub client with the API token.
-const context = github.context
-const token = core.getInput('token', {required: true})
-const octokit = github.getOctokit(token)
-
 async function run(): Promise<void> {
   try {
+    // Create GitHub client with the API token.
+    const context = github.context
+    const token = core.getInput('token', {required: true})
+    const octokit = github.getOctokit(token)
+
     // Debug log the payload.
     core.debug(`Payload keys: ${Object.keys(context.payload)}`)
 
