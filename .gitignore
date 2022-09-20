@@ -6,6 +6,9 @@ bin-release/
 
 # Other files and folders
 .settings/
+lib/
+__test__/_temp
+_temp/
 node_modules/
 .env**
 

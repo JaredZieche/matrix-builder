@@ -1,10 +1,12 @@
 import * as core from '@actions/core'
-import {context, GitHub} from '@actions/github'
+import * as github from '@actions/github'
 
 async function run(): Promise<void> {
   try {
     // Create GitHub client with the API token.
-    const client = new GitHub(core.getInput('token', {required: true}))
+    const context = github.context
+    const token = core.getInput('token')
+    const octokit = github.getOctokit(token)
 
     // Debug log the payload.
     core.debug(`Payload keys: ${Object.keys(context.payload)}`)
@@ -50,7 +52,7 @@ async function run(): Promise<void> {
 
     // Use GitHub's compare two commits API.
     // https://developer.github.com/v3/repos/commits/#compare-two-commits
-    const response = await client.repos.compareCommits({
+    const response = await octokit.rest.repos.compareCommits({
       base,
       head,
       owner: context.repo.owner,
@@ -82,7 +84,7 @@ async function run(): Promise<void> {
     }
     core.setOutput('all', all)
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed(`${(error as any)?.message ?? error}`)
   }
 }
 
