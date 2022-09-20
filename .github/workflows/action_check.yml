@@ -11,7 +11,7 @@ jobs:
       - uses: jaredzieche/matrix-builder@feature/test
         with:
           config_path: 'test/test.*'
-          file_type: 'main.ts'
-          map: 'test/map.json'
+          file_type: 'Dockerfile'
+          map_file: 'test/map.json'
 
 
