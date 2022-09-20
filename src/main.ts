@@ -58,8 +58,8 @@ async function run(): Promise<void> {
     // https://developer.github.com/v3/repos/commits/#compare-two-commits
     const response = await octokit.rest.repos.compareCommitsWithBasehead({
       basehead: `${base}...${head}`,
-      owner: 'jaredzieche',
-      repo: 'github-actions-testing'
+      owner: context.repo.owner,
+      repo: context.repo.repo
     });
     // const response = await octokit.rest.repos.compareCommits({
     //   base,
