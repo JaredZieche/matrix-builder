@@ -86,9 +86,7 @@ async function run(): Promise<void> {
     }
 
     // Get the changed files from the response payload.
-
     const commitfiles = response.data.files;
-    console.log(commitfiles)
     const contextdirs = [] as string[];
     for (const file of commitfiles) {
       const filename = file.filename
@@ -97,6 +95,7 @@ async function run(): Promise<void> {
         contextdirs.push(`${dirname}/${filetype}`);
       }
     }
+
     const newdirs = [] as string[];
     let globPattern = [...new Set(contextdirs)]
     const globber = await glob.create(globPattern.join('\n'))
@@ -105,8 +104,9 @@ async function run(): Promise<void> {
       let newdir = path.dirname(glob)
       newdirs.push(newdir);
     }
+
     let matrix = {};
-    matrix.include = []
+    matrix.include = [];
     for (const dir of newdirs) {
       console.log(dir)
       const configFile = `${dir}/config.json`
@@ -128,6 +128,7 @@ async function run(): Promise<void> {
         }
       }
     }
+
     core.info(`Context directories: ${newdirs}`);
     core.info(`Matrix: ${matrix}`);
 

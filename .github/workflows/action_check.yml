@@ -10,9 +10,13 @@ jobs:
       - uses: actions/checkout@v3
 
       - uses: jaredzieche/matrix-builder@feature/test
+        id: matrix-step
         with:
           config_path: 'test/test.*'
           file_type: 'Dockerfile'
           map_file: 'test/map.json'
+
+      - run: |
+          echo "steps.matrix-step.outputs.matrix"
 
 
