@@ -2,11 +2,10 @@ name: action test
 
 on:
   pull_request:
-    paths:
-      - src/docker/.*
+  push:
 
 jobs:
   test-action:
-  runs-on: ubuntu-latest
-  steps:
-    - uses: ./
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jaredzieche/matrix-builder@master
