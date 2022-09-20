@@ -41,14 +41,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(506));
 const github = __importStar(__nccwpck_require__(489));
+// Create GitHub client with the API token.
+const context = github.context;
+const token = core.getInput('token', { required: true });
+const octokit = github.getOctokit(token);
 function run() {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // Create GitHub client with the API token.
-            const context = github.context;
-            const token = core.getInput('token');
-            const octokit = github.getOctokit(token);
             // Debug log the payload.
             core.debug(`Payload keys: ${Object.keys(context.payload)}`);
             // Get event name.
@@ -99,7 +99,7 @@ function run() {
                     "Please submit an issue on this action's GitHub repo.");
             }
             // Get the changed files from the response payload.
-            const files = (_e = response.data.files) === null || _e === void 0 ? void 0 : _e.values();
+            const files = response.data.files;
             const all = [];
             for (const file of files) {
                 const filename = file.filename;
@@ -108,7 +108,7 @@ function run() {
             core.setOutput('all', all);
         }
         catch (error) {
-            core.setFailed(`${(_f = error === null || error === void 0 ? void 0 : error.message) !== null && _f !== void 0 ? _f : error}`);
+            core.setFailed(`${(_e = error === null || error === void 0 ? void 0 : error.message) !== null && _e !== void 0 ? _e : error}`);
         }
     });
 }

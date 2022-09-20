@@ -1,15 +1,13 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 
-type FileStatus = 'added' | 'modified' | 'removed' | 'renamed'
+// Create GitHub client with the API token.
+const context = github.context
+const token = core.getInput('token', {required: true})
+const octokit = github.getOctokit(token)
 
 async function run(): Promise<void> {
   try {
-    // Create GitHub client with the API token.
-    const context = github.context
-    const token = core.getInput('token')
-    const octokit = github.getOctokit(token)
-
     // Debug log the payload.
     core.debug(`Payload keys: ${Object.keys(context.payload)}`)
 
@@ -78,7 +76,7 @@ async function run(): Promise<void> {
     }
 
     // Get the changed files from the response payload.
-    const files = response.data.files?.values()
+    const files = response.data.files
     const all = [] as string[]
     for (const file of files) {
       const filename = file.filename
