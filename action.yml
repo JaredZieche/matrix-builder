@@ -3,7 +3,6 @@ description: 'Get all changed files from event and create a json object for use 
 runs:
   using: node16
   main: dist/index.js
-  post: dist/index.js
 inputs:
   token:
     description: github token for api requests

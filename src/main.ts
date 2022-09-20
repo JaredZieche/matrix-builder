@@ -94,10 +94,9 @@ async function run(): Promise<void> {
       const filename = file.filename
       if (filename.match(`/${configpath}/`)) {
         let dirname = path.dirname(filename)
-        contextdirs.push(`${dirname}/${fileType}`);
+        contextdirs.push(`${dirname}/${filetype}`);
       }
     }
-    core.setOutput("contextdirs", contextdirs);
     const newdirs = [] as string[];
     let globPattern = [...new Set(contextdirs)]
     const globber = await glob.create(globPattern.join('\n'))
@@ -106,8 +105,7 @@ async function run(): Promise<void> {
       let newdir = path.dirname(glob)
       newdirs.push(newdir);
     }
-    core.info(`Context directories: ${newdirs}`);
-    const matrix = {};
+    let matrix = {};
     matrix.include = []
     for (const dir of newdirs) {
       console.log(dir)
@@ -130,8 +128,11 @@ async function run(): Promise<void> {
         }
       }
     }
-    core.info(`Matrix: ${matrix}`)
-    core.setOutput("matrix", matrix)
+    core.info(`Context directories: ${newdirs}`);
+    core.info(`Matrix: ${matrix}`);
+
+    core.setOutput("matrix", matrix);
+    core.setOutput("contextdirs", contextdirs);
 
 
   } catch (error) {

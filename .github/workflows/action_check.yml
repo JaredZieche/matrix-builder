@@ -2,12 +2,13 @@ name: action test
 
 on:
   pull_request:
-  push:
 
 jobs:
   test-action:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+
       - uses: jaredzieche/matrix-builder@feature/test
         with:
           config_path: 'test/test.*'
