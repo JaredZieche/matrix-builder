@@ -104,6 +104,7 @@ async function run(): Promise<void> {
       let newdir = path.dirname(glob)
       newdirs.push(newdir);
     }
+    core.info(`Context directories: ${newdirs}`)
     // // console.log(newdirs)
     // const buildMatrix = {};
     // const promotionMatrix = {};
