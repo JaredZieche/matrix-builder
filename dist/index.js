@@ -2212,6 +2212,7 @@ function run() {
                     }
                 }
             }
+            core.info(`Initial Context directories: ${contextdirs}`);
             core.info(`Context directories: ${newdirs}`);
             core.info(`Matrix: ${matrix}`);
             core.setOutput("matrix", matrix);

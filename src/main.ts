@@ -133,6 +133,7 @@ async function run(): Promise<void> {
       }
     }
 
+    core.info(`Initial Context directories: ${contextdirs}`);
     core.info(`Context directories: ${newdirs}`);
     core.info(`Matrix: ${matrix}`);
 
