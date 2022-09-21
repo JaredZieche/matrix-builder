@@ -96,6 +96,7 @@ async function run(): Promise<void> {
       }
     }
 
+    console.log(contextdirs)
     const newdirs = [] as string[];
     let globPattern = [...new Set(contextdirs)];
     const globber = await glob.create(globPattern.join("\n"));
@@ -105,9 +106,10 @@ async function run(): Promise<void> {
       newdirs.push(newdir);
     }
 
+    console.log(newdirs)
     type matrices = { name?: string; env?: string; image?: string };
     type include = matrices[];
-    const matrix = {};
+    const matrix: Object = {};
 
     for (const dir of newdirs) {
       console.log(dir);
@@ -133,6 +135,7 @@ async function run(): Promise<void> {
       }
     }
 
+    console.log(matrix)
     core.info(`Initial Context directories: ${contextdirs}`);
     core.info(`Context directories: ${newdirs}`);
     core.info(`Matrix: ${matrix}`);

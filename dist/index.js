@@ -2180,6 +2180,7 @@ function run() {
                     contextdirs.push(`${dirname}/${filetype}`);
                 }
             }
+            console.log(contextdirs);
             const newdirs = [];
             let globPattern = [...new Set(contextdirs)];
             const globber = yield glob.create(globPattern.join("\n"));
@@ -2188,6 +2189,7 @@ function run() {
                 let newdir = path.dirname(glob);
                 newdirs.push(newdir);
             }
+            console.log(newdirs);
             const matrix = {};
             for (const dir of newdirs) {
                 console.log(dir);
@@ -2212,6 +2214,7 @@ function run() {
                     }
                 }
             }
+            console.log(matrix);
             core.info(`Initial Context directories: ${contextdirs}`);
             core.info(`Context directories: ${newdirs}`);
             core.info(`Matrix: ${matrix}`);
