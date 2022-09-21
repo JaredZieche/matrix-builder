@@ -146,16 +146,17 @@ async function run(): Promise<void> {
       }
     }
 
-    console.log(buildMatrix)
-    console.log(promotionMatrix)
 
     core.info(`Initial Context directories: ${contextdirs}`);
     core.info(`Context directories: ${newdirs}`);
-    core.info(`Build Matrix: ${buildMatrix}`);
+    core.info(`Build Matrix:`);
+    console.log(buildMatrix)
+    core.info(`Promotion Matrix:`);
+    console.log(promotionMatrix)
 
     core.setOutput("contextdirs", contextdirs);
-    core.setOutput('build-matrix', buildMatrix)
-    core.setOutput('promotion-matrix', promotionMatrix)
+    core.setOutput('build-matrix', buildMatrix);
+    core.setOutput('promotion-matrix', promotionMatrix);
 
     const buildArray = buildMatrix.include
     const buildCells = []

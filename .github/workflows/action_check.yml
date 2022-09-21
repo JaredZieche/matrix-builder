@@ -17,6 +17,7 @@ jobs:
           map_file: 'test/map.json'
 
       - run: |
-          echo "${{ fromJSON(steps.matrix-step.outputs.matrix) }}"
+          echo "${{ fromJSON(steps.matrix-step.outputs.build-matrix) }}"
+          echo "${{ fromJSON(steps.matrix-step.outputs.promotion-matrix) }}"
 
 
