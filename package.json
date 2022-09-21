@@ -8,17 +8,24 @@
     },
     "scripts": {
         "build": "tsc && ncc build",
+        "clean": "rimraf dist/**/* lib/**/*",
         "format": "prettier --write **/*.ts",
         "format:check": "prettier --check **/*.ts",
         "lint": "eslint src/**/*.ts",
         "test": "jest",
-        "all": "yarn build && yarn format && yarn lint && yarn test"
+        "all": "yarn clean && yarn build && yarn format && yarn lint && yarn test"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/JaredZieche/matrix-builder.git"
     },
-    "keywords": [],
+    "keywords": [
+        "GitHub",
+        "Actions",
+        "TypeScript",
+        "JavaScript",
+        "matrix"
+    ],
     "author": "",
     "license": "ISC",
     "bugs": {

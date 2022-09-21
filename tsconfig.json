@@ -9,7 +9,8 @@
         "strict": true,
         "noImplicitAny": false,
         "esModuleInterop": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "strictNullChecks": false
     },
     "exclude": ["node_modules", "lib", "**/*.test.ts"]
 }
