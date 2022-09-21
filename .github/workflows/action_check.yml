@@ -12,11 +12,11 @@ jobs:
       - uses: jaredzieche/matrix-builder@feature/test
         id: matrix-step
         with:
-          config_path: 'test\/.*'
+          config_path: '.*'
           file_type: 'Dockerfile'
           map_file: 'test/map.json'
 
       - run: |
-          echo ${{ fromJSON(steps.matrix-step.outputs.matrix) }}
+          echo "${{ fromJSON(steps.matrix-step.outputs.matrix) }}"
 
 
