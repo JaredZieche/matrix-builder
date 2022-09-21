@@ -2190,40 +2190,71 @@ function run() {
                 newdirs.push(newdir);
             }
             console.log(newdirs);
-            const matrix = {};
-            const include = [];
+            let buildMatrix = {};
+            buildMatrix.include = [];
+            let promotionMatrix = {};
+            promotionMatrix.include = [];
             for (const dir of newdirs) {
                 console.log(dir);
                 const configFile = `${dir}/config.json`;
                 const config = fs.readFileSync(configFile, "utf8");
-                let configobj = JSON.parse(config);
+                let configObj = JSON.parse(config);
                 const configmap = fs.readFileSync(mapfile, "utf8");
-                let mapobj = JSON.parse(configmap);
-                console.log(configobj);
-                console.log(mapobj);
-                for (const target of configobj.targets) {
-                    for (let [key, value] of Object.entries(mapobj)) {
+                let mapObj = JSON.parse(configmap);
+                console.log(`Config: ${configObj}`);
+                console.log(`Registry Map: ${mapObj}`);
+                buildMatrix.include.push({
+                    name: dir,
+                    image: `${configObj.image["name"]}:${configObj.image["tag"]}`
+                });
+                for (const target of configObj.targets) {
+                    for (let [key, value] of Object.entries(mapObj)) {
                         console.log(value);
                         for (const val of value) {
                             console.log(val);
                             if (val.includes(target)) {
-                                let gh = key;
-                                include.push({
+                                let ghEnv = key;
+                                promotionMatrix.include.push({
                                     name: dir,
-                                    env: gh,
-                                    image: `${configobj.image["name"]}:${configobj.image["tag"]}`
+                                    env: ghEnv,
+                                    targets: target,
+                                    image: `${configObj.image["name"]}:${configObj.image["tag"]}`
                                 });
                             }
                         }
                     }
                 }
             }
-            console.log(matrix);
+            console.log(buildMatrix);
+            console.log(promotionMatrix);
             core.info(`Initial Context directories: ${contextdirs}`);
             core.info(`Context directories: ${newdirs}`);
-            core.info(`Matrix: ${matrix}`);
-            core.setOutput("matrix", matrix);
+            core.info(`Build Matrix: ${buildMatrix}`);
             core.setOutput("contextdirs", contextdirs);
+            core.setOutput('build-matrix', buildMatrix);
+            core.setOutput('promotion-matrix', promotionMatrix);
+            const buildArray = buildMatrix.include;
+            const buildCells = [];
+            buildCells.push([{ data: 'Context', header: true }, { data: 'Image', header: true }]);
+            for (let elements of buildArray) {
+                buildCells.push([elements.name, elements.image]);
+            }
+            console.log('Creating Summary for build-matrix');
+            yield core.summary
+                .addHeading('Build-Matrix')
+                .addTable(buildCells)
+                .write();
+            const promotionArray = promotionMatrix.include;
+            const promotionCells = [];
+            promotionCells.push([{ data: 'Context', header: true }, { data: 'Env', header: true }, { data: 'Targets', header: true }, { data: 'Image', header: true }]);
+            for (let elements of promotionArray) {
+                promotionCells.push([elements.name, elements.env, elements.targets, elements.image]);
+            }
+            console.log('Creating Summary for promotion-matrix');
+            yield core.summary
+                .addHeading('Promotion-Matrix')
+                .addTable(promotionCells)
+                .write();
         }
         catch (error) {
             core.setFailed(`${(_e = error === null || error === void 0 ? void 0 : error.message) !== null && _e !== void 0 ? _e : error}`);

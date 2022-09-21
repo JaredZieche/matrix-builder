@@ -23,5 +23,7 @@ inputs:
 outputs:
   contextdirs:
     description: Array of all changed files
-  matrix:
-    description: json object for use in job matrices
+  build-matrix:
+    description: json object for use in image build job matrices
+  promotion-matrix:
+    description: json object for use in image promotion job matrices
