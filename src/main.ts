@@ -115,10 +115,12 @@ async function run(): Promise<void> {
       console.log(dir);
       const configFile = `${dir}/config.json`;
       const config = fs.readFileSync(configFile, "utf8");
-      let obj = JSON.parse(config);
+      let configobj = JSON.parse(config);
       const configmap = fs.readFileSync(mapfile, "utf8");
       let mapobj: Object = JSON.parse(configmap);
-      for (const target of obj.targets) {
+      console.log(configobj)
+      console.log(mapobj)
+      for (const target of configobj.targets) {
         for (let [key, value] of Object.entries(mapobj)) {
           for (const val of value) {
             if (val.includes(target)) {
@@ -127,7 +129,7 @@ async function run(): Promise<void> {
               include.push({
                 name: dir,
                 env: gh,
-                image: `${obj.image["name"]}:${obj.image["tag"]}`
+                image: `${configobj.image["name"]}:${configobj.image["tag"]}`
               });
             }
           }
