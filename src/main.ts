@@ -107,7 +107,7 @@ async function run(): Promise<void> {
 
     type matrices = { name?: string; env?: string; image?: string };
     type include = matrices[];
-    const matrix: Object = {};
+    const matrix = {};
 
     for (const dir of newdirs) {
       console.log(dir);
