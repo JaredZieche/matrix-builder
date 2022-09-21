@@ -110,6 +110,7 @@ async function run(): Promise<void> {
     type matrices = { name?: string; env?: string; image?: string };
     type include = matrices[];
     const matrix: Object = {};
+    const include: include = [];
 
     for (const dir of newdirs) {
       console.log(dir);
@@ -121,11 +122,12 @@ async function run(): Promise<void> {
       console.log(configobj)
       console.log(mapobj)
       for (const target of configobj.targets) {
-        for (let [key, value] of Object.entries(mapobj)) {
+        for (let [key,value] of Object.entries(mapobj)) {
+          console.log(value)
           for (const val of value) {
+            console.log(val)
             if (val.includes(target)) {
               let gh = key;
-              const include: include = [];
               include.push({
                 name: dir,
                 env: gh,

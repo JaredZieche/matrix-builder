@@ -2191,6 +2191,7 @@ function run() {
             }
             console.log(newdirs);
             const matrix = {};
+            const include = [];
             for (const dir of newdirs) {
                 console.log(dir);
                 const configFile = `${dir}/config.json`;
@@ -2202,10 +2203,11 @@ function run() {
                 console.log(mapobj);
                 for (const target of configobj.targets) {
                     for (let [key, value] of Object.entries(mapobj)) {
+                        console.log(value);
                         for (const val of value) {
+                            console.log(val);
                             if (val.includes(target)) {
                                 let gh = key;
-                                const include = [];
                                 include.push({
                                     name: dir,
                                     env: gh,
