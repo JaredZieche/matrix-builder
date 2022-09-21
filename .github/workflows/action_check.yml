@@ -12,7 +12,7 @@ jobs:
       - uses: jaredzieche/matrix-builder@feature/test
         id: matrix-step
         with:
-          config_path: 'test/test.*'
+          config_path: 'test/.*'
           file_type: 'Dockerfile'
           map_file: 'test/map.json'
 

@@ -11,7 +11,7 @@ inputs:
   config_path:
     description: path in repo to check for matrix configuration files, string in the form of repo path
     required: true
-    default: 'test/.*/.*'
+    default: 'test/.*'
   file_type:
     description: filename to identify a directory as a build context
     required: true
