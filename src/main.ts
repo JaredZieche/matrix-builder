@@ -96,6 +96,7 @@ async function run(): Promise<void> {
       }
     }
 
+    // Set new directories for glob search
     console.log(contextdirs)
     const newdirs = [] as string[];
     let globPattern = [...new Set(contextdirs)];
@@ -108,14 +109,16 @@ async function run(): Promise<void> {
 
     console.log(newdirs)
 
+    // Declare matrix objects
     let buildMatrix: any = {};
     buildMatrix.include = [];
 
     let promotionMatrix: any = {};
     promotionMatrix.include = [];
 
+    // Construct matrices
     for (const dir of newdirs) {
-      console.log(dir);
+      console.log(`Building matrices for ${dir}`);
       const configFile = `${dir}/config.json`;
       const config = fs.readFileSync(configFile, "utf8");
       let configObj = JSON.parse(config);
@@ -127,11 +130,11 @@ async function run(): Promise<void> {
         name: dir,
         image: `${configObj.image["name"]}:${configObj.image["tag"]}`
       })
+      // Compare config targets to map key/value
       for (const target of configObj.targets) {
         for (let [key,value] of Object.entries(mapObj)) {
-          console.log(value)
           for (const val of value) {
-            console.log(val)
+            console.log(`Determing ${target} mapped key`)
             if (val.includes(target)) {
               let ghEnv = key
               promotionMatrix.include.push({
@@ -146,7 +149,7 @@ async function run(): Promise<void> {
       }
     }
 
-
+    // Log outputs
     core.info(`Initial Context directories: ${contextdirs}`);
     core.info(`Context directories: ${newdirs}`);
     core.info(`Build Matrix:`);
@@ -154,10 +157,12 @@ async function run(): Promise<void> {
     core.info(`Promotion Matrix:`);
     console.log(promotionMatrix)
 
+    // set outputs
     core.setOutput("contextdirs", contextdirs);
     core.setOutput('build-matrix', buildMatrix);
     core.setOutput('promotion-matrix', promotionMatrix);
 
+    // Write job summary
     const buildArray = buildMatrix.include
     const buildCells = []
     buildCells.push([{data: 'Context', header: true}, {data: 'Image', header: true}])
