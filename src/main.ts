@@ -119,7 +119,7 @@ async function run(): Promise<void> {
       const configmap = fs.readFileSync(mapfile, "utf8");
       let mapobj = JSON.parse(configmap);
       for (const target of obj.targets) {
-        for (let [key, value] of Object[Symbol.iterator](mapobj)) {
+        for (let [key, value] of Object(mapobj)) {
           for (const val of value) {
             if (val.includes(target)) {
               let gh = key;
