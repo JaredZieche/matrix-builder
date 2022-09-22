@@ -1,6 +1,5 @@
 name: PR Labeler
 on:
-  workflow_call:
   pull_request:
     types: [opened]
 
