@@ -9,8 +9,7 @@
         "format": "prettier --write **/*.ts",
         "format:check": "prettier --check **/*.ts",
         "lint": "eslint src/main.ts",
-        "test": "jest",
-        "all": "yarn clean && yarn build && yarn format && yarn lint && yarn test"
+        "all": "yarn clean && yarn build && yarn format && yarn lint"
     },
     "repository": {
         "type": "git",
