@@ -1,28 +1,63 @@
 {
-  "name": "matrix-builder",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JaredZieche/matrix-builder.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/JaredZieche/matrix-builder/issues"
-  },
-  "homepage": "https://github.com/JaredZieche/matrix-builder#readme",
-  "dependencies": {
-    "@actions/core": "^1.9.1",
-    "@actions/github": "^5.0.3",
-    "typescript": "^4.8.3"
-  },
-  "devDependencies": {
-    "@types/node": "^18.7.18"
-  }
+    "name": "matrix-builder",
+    "version": "1.0.0",
+    "description": "matrix-builder",
+    "main": "lib/main.js",
+    "scripts": {
+        "build": "tsc && ncc build",
+        "clean": "rimraf dist/**/* lib/**/*",
+        "format": "prettier --write **/*.ts",
+        "format:check": "prettier --check **/*.ts",
+        "lint": "eslint src/main.ts",
+        "all": "yarn clean && yarn build && yarn format && yarn lint"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/JaredZieche/matrix-builder.git"
+    },
+    "keywords": [
+        "GitHub",
+        "Actions",
+        "TypeScript",
+        "JavaScript",
+        "matrix"
+    ],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/JaredZieche/matrix-builder/issues"
+    },
+    "homepage": "https://github.com/JaredZieche/matrix-builder#readme",
+    "dependencies": {
+        "@actions/core": "^1.2.6",
+        "@actions/github": "^5.0.3",
+        "@actions/glob": "^0.3.0",
+        "fs": "^0.0.1-security",
+        "path": "^0.12.7",
+        "uuid": "^3.3.3"
+    },
+    "devDependencies": {
+        "@types/jest": "^27.0.2",
+        "@types/node": "^12.7.12",
+        "@types/uuid": "^3.4.6",
+        "@typescript-eslint/parser": "^5.1.0",
+        "@vercel/ncc": "^0.34.0",
+        "eslint": "^7.32.0",
+        "eslint-import-resolver-typescript": "^3.5.1",
+        "eslint-plugin-github": "^4.3.2",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-jest": "^25.2.2",
+        "eslint-plugin-prettier": "^4.2.1",
+        "jest": "^27.3.0",
+        "jest-circus": "^27.3.0",
+        "js-yaml": "^3.13.1",
+        "prettier": "^1.19.1",
+        "ts-jest": "^27.0.7",
+        "ts-node": "^10.9.1",
+        "typescript": "^4.4.4"
+    },
+    "types": "./lib/main.d.ts",
+    "directories": {
+        "lib": "lib"
+    }
 }

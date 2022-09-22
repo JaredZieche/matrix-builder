@@ -3,9 +3,121 @@ name: action test
 on:
   pull_request:
   push:
+    branches:
+      - master
+      - releases/*
 
 jobs:
-  test-action:
+  debug:
+    name: Debug
     runs-on: ubuntu-latest
     steps:
-      - uses: jaredzieche/matrix-builder@master
+      - name: Print environment variables
+        run: env
+
+      - name: Print events.json
+        run: cat "$GITHUB_EVENT_PATH"
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: |
+          yarn
+      - name: Clean, build, format, lint, package, and test
+        run: |
+          yarn all
+      - name: Check if packaged properly
+        run: |
+          # If there are any unstaged or untracked files in 'dist/', then the action wasn't packaged properly
+          if git diff --name-only | grep '^dist/' || git ls-files --other --exclude-standard | grep '^dist/'; then
+            echo "You didn't package the action properly before pushing to remote." \
+            echo "Always run 'yarn all' before staging a commit."
+            echo "Below are the modified files in 'dist/' after running 'yarn && rm -rf dist/ && yarn all':"
+            git diff --name-only | grep '^dist/'
+            git ls-files --other --exclude-standard | grep '^dist/'
+            exit 1
+          fi
+
+  test:
+    needs: build
+    name: Test
+    runs-on: ubuntu-latest
+    outputs:
+      build-matrix: ${{steps.matrix.outputs.build-matrix}}
+      promotion-matrix: ${{steps.matrix.outputs.promotion-matrix}}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./
+        id: matrix
+        with:
+          config_path: '.*'
+          file_type: 'Dockerfile'
+          map_file: 'test/map.json'
+
+  build-matrix:
+    needs: test
+    name: build-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.test.outputs.build-matrix) }}
+    steps:
+      - run: |
+          echo ${{matrix.name}}
+          echo ${{matrix.image}}
+
+  promotion-matrix:
+    needs: test
+    name: promotion-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.test.outputs.promotion-matrix) }}
+    steps:
+      - run: |
+          echo ${{matrix.name}}
+          echo ${{matrix.env}}
+          echo ${{matrix.image}}
+          echo ${{matrix.targets}}
+
+

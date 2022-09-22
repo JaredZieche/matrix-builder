@@ -1,10 +1,29 @@
-name: Create docker job matrix
-description: Get all changed files from event and create a json object for use as a job matrix
+name: 'matrix-builder'
+description: 'Get all changed files from event and create a json object for use as a job matrix to build multiple docker images and promote then to different environments/registries'
 runs:
   using: node16
-  main: src/main.ts
+  main: dist/index.js
 inputs:
   token:
     description: github token for api requests
     required: true
     default: ${{github.token}}
+  config_path:
+    description: path in repo to check for matrix configuration files, string in the form of repo path
+    required: true
+    default: 'test/.*'
+  file_type:
+    description: filename to identify a directory as a build context
+    required: true
+    default: Dockerfile
+  map_file:
+    description: path to json file containing map of github runners to target envs
+    required: true
+    default: test/map.json
+outputs:
+  contextdirs:
+    description: Array of all changed files
+  build-matrix:
+    description: json object for use in image build job matrices
+  promotion-matrix:
+    description: json object for use in image promotion job matrices

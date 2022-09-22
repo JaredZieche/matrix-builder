@@ -1,0 +1,7 @@
+{
+    "targets": ["dev1", "stage1", "prod1"],
+    "image": {
+        "name": "test",
+        "tag": "test"
+    }
+}
