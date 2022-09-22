@@ -1,5 +1,5 @@
 name: 'matrix-builder'
-description: 'Get all changed files from event and create a json object for use as a job matrix'
+description: 'Get all changed files from event and create a json object for use as a job matrix to build multiple docker images and promote then to different environments/registries'
 runs:
   using: node16
   main: dist/index.js
